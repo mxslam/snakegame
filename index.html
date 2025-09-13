@@ -36,9 +36,33 @@
       height: 50px;
       border-radius: 5px;
     }
+
+    #chips {
+      position: relative;
+      background: rgb(192, 182, 66);
+      width: 50px;
+      height: 50px;
+      border-radius: 10px;
+    }
+
+    #grid {
+      display: flex;
+      position: relative;
+      width: 800px;
+      height: 600px;
+      position: absolute;
+    }
+
+    #gridElement {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      border: 1px solid rgb(28, 2, 38);
+    }
   </style>
   <body>
     <div id="game">
+      <div id="grid"></div>
       <div id="player"></div>
     </div>
   </body>

@@ -3,35 +3,53 @@ const GameElement = document.getElementById('game');
 class Game {
   constructor() {
     this.player = new Player(500, 300);
-    console.log(this.player);
+
+    // setInterval(() => {
+    //   let testCountChips = document.querySelectorAll('#chips').length;
+    //   if (testCountChips > 0) return;
+    //   this.spawnchips(200, 500);
+    //   console.log(testCountChips);
+    // }, 2000);
+    this.displaygrid();
     this.update();
-    this.player.IncreaseSnake();
   }
 
   update() {
     this.player.MovePlayer();
-    this.colision();
     requestAnimationFrame(() => {
       this.update();
     });
   }
 
-  colision() {
-    if (this.player.xpos > 750) {
-      this.player.SetXposition(0);
-    }
-    if (this.player.xpos < 0) {
-      this.player.SetXposition(750);
-    }
+  displaygrid() {
+    let grid = document.getElementById('grid');
 
-    if (this.player.ypos > 550) {
-      this.player.SetYposition(0);
+    let r = Math.random() * 50;
+    let g = Math.random() * 50;
+    let b = Math.random() * 255;
+
+    for (let i = 0, y = 0; i < 16; i++) {
+      let gridElement = document.createElement('div');
+      gridElement.id = 'gridElement';
+      gridElement.className = `${i}${y}`;
+      gridElement.style.left = `${i * 50}px`;
+      gridElement.style.top = `${y * 50}px`;
+      grid.appendChild(gridElement);
+
+      if (i == 15 && y < 11) {
+        y++;
+        i = -1;
+      }
     }
-    if (this.player.ypos < 0) {
-      this.player.SetYposition(550);
-    }
-    this.player.RefreshValues();
   }
+
+  // spawnchips(x, y) {
+  //   let chips = document.createElement('div');
+  //   chips.id = 'chips';
+  //   chips.style.left = `${x}px`;
+  //   chips.style.top = `${y}px`;
+  //   GameElement.appendChild(chips);
+  // }
 
   key(key) {
     switch (key) {
