@@ -4,12 +4,12 @@ class Game {
   constructor() {
     this.player = new Player(500, 300);
 
-    // setInterval(() => {
-    //   let testCountChips = document.querySelectorAll('#chips').length;
-    //   if (testCountChips > 0) return;
-    //   this.spawnchips(200, 500);
-    //   console.log(testCountChips);
-    // }, 2000);
+    setInterval(() => {
+      let testCountChips = document.querySelectorAll('#chips').length;
+      if (testCountChips > 0) return;
+      this.spawnchips(200, 500);
+      console.log(testCountChips);
+    }, 2000);
     this.displaygrid();
     this.update();
   }
@@ -24,32 +24,36 @@ class Game {
   displaygrid() {
     let grid = document.getElementById('grid');
 
-    let r = Math.random() * 50;
-    let g = Math.random() * 50;
-    let b = Math.random() * 255;
-
-    for (let i = 0, y = 0; i < 16; i++) {
-      let gridElement = document.createElement('div');
-      gridElement.id = 'gridElement';
-      gridElement.className = `${i}${y}`;
-      gridElement.style.left = `${i * 50}px`;
-      gridElement.style.top = `${y * 50}px`;
-      grid.appendChild(gridElement);
-
-      if (i == 15 && y < 11) {
-        y++;
-        i = -1;
+    for (let y = 0; y < 12; y++) {
+      for (let x = 0; x < 16; x++) {
+        let gridElement = document.createElement('div');
+        gridElement.id = 'gridElement';
+        gridElement.className = `${x}${y}`;
+        gridElement.style.left = `${x * 50}px`;
+        gridElement.style.top = `${y * 50}px`;
+        grid.appendChild(gridElement);
       }
     }
   }
 
-  // spawnchips(x, y) {
-  //   let chips = document.createElement('div');
-  //   chips.id = 'chips';
-  //   chips.style.left = `${x}px`;
-  //   chips.style.top = `${y}px`;
-  //   GameElement.appendChild(chips);
-  // }
+  // UTILISER PLUTOT MODULO %
+  validateXgrid(x) {
+    x = Math.floor(x / 50) * 50;
+
+    if (x > 15) {
+      x = Math.floor(x / 15) * 50;
+    }
+  }
+
+  validateYgrid() {}
+
+  spawnchips(x, y) {
+    let chips = document.createElement('div');
+    chips.id = 'chips';
+    chips.style.left = `${x}px`;
+    chips.style.top = `${y}px`;
+    GameElement.appendChild(chips);
+  }
 
   key(key) {
     switch (key) {
