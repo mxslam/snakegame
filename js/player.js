@@ -11,6 +11,7 @@ class Player {
     this.snakeMove = false;
     MapArray.push({
       name: 'player',
+      selector: 'player',
       x: this.xpos,
       y: this.ypos,
     });
