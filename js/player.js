@@ -8,11 +8,18 @@ class Player {
     this.ypos = parseInt(PlayerElement.style.top.slice(0, -2));
     this.xtarget = this.xpos;
     this.ytarget = this.ypos;
+    this.snakeMove = false;
+    MapArray.push({
+      name: 'player',
+      x: this.xpos,
+      y: this.ypos,
+    });
   }
 
   RefreshValues() {
     this.xpos = parseInt(PlayerElement.style.left.slice(0, -2));
     this.ypos = parseInt(PlayerElement.style.top.slice(0, -2));
+    this.xtarget == this.xpos && this.ypos == this.ytarget ? (this.snakeMove = false) : (this.snakeMove = true);
   }
 
   SetXposition(x) {
@@ -27,7 +34,7 @@ class Player {
     this.SetYposition(y);
   }
 
-  VerifyTarget() {
+  VerifyTargetCollision() {
     if (this.xtarget > 750) {
       this.xtarget = 0;
       this.SetXposition(0);
@@ -50,8 +57,6 @@ class Player {
   }
 
   MovePlayer() {
-    this.RefreshValues();
-
     if (this.xtarget > this.xpos) {
       this.SetXposition(this.xpos + 2.5);
     }
@@ -68,29 +73,28 @@ class Player {
       this.SetYposition(this.ypos - 2.5);
     }
 
-    switch (this.dir) {
-      case 0:
-        if (this.xtarget == this.xpos && this.ypos === this.ytarget) this.xtarget = this.xpos + 50;
-        this.VerifyTarget();
+    this.createNewTarget();
+    this.VerifyTargetCollision();
+  }
 
-        break;
+  createNewTarget() {
+    if (!this.snakeMove) {
+      switch (this.dir) {
+        case 0:
+          this.xtarget = this.xpos + 50;
+          break;
 
-      case 1:
-        if (this.xtarget == this.xpos && this.ypos === this.ytarget) this.xtarget = this.xpos - 50;
-        this.VerifyTarget();
+        case 1:
+          this.xtarget = this.xpos - 50;
+          break;
 
-        break;
-
-      case 2:
-        if (this.ytarget == this.ypos && this.xpos === this.xtarget) this.ytarget = this.ypos - 50;
-        this.VerifyTarget();
-
-        break;
-      case 3:
-        if (this.ytarget == this.ypos && this.xpos === this.xtarget) this.ytarget = this.ypos + 50;
-        this.VerifyTarget();
-
-        break;
+        case 2:
+          this.ytarget = this.ypos - 50;
+          break;
+        case 3:
+          this.ytarget = this.ypos + 50;
+          break;
+      }
     }
   }
 }

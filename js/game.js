@@ -1,58 +1,37 @@
 const GameElement = document.getElementById('game');
+const MapArray = [];
 
 class Game {
   constructor() {
+    this.grid = new Grid();
     this.player = new Player(500, 300);
 
-    setInterval(() => {
-      let testCountChips = document.querySelectorAll('#chips').length;
-      if (testCountChips > 0) return;
-      this.spawnchips(200, 500);
-      console.log(testCountChips);
-    }, 2000);
-    this.displaygrid();
+    setInterval(function hi() {
+      let CountChips = parseInt(document.querySelectorAll('#chips').length);
+      if (CountChips > 0) return;
+      new Chips(Math.random() * 1000, Math.random() * 1000);
+      console.log(MapArray);
+    }, 1000);
+
+    this.grid.displayGrid();
     this.update();
   }
 
   update() {
+    this.player.RefreshValues();
     this.player.MovePlayer();
     requestAnimationFrame(() => {
       this.update();
     });
   }
 
-  displaygrid() {
-    let grid = document.getElementById('grid');
-
-    for (let y = 0; y < 12; y++) {
-      for (let x = 0; x < 16; x++) {
-        let gridElement = document.createElement('div');
-        gridElement.id = 'gridElement';
-        gridElement.className = `${x}${y}`;
-        gridElement.style.left = `${x * 50}px`;
-        gridElement.style.top = `${y * 50}px`;
-        grid.appendChild(gridElement);
-      }
-    }
-  }
-
   // UTILISER PLUTOT MODULO %
-  validateXgrid(x) {
-    x = Math.floor(x / 50) * 50;
-
-    if (x > 15) {
-      x = Math.floor(x / 15) * 50;
-    }
+  static validateXcoord(x) {
+    return (Math.floor(x / 50) % 16) * 50;
   }
 
-  validateYgrid() {}
-
-  spawnchips(x, y) {
-    let chips = document.createElement('div');
-    chips.id = 'chips';
-    chips.style.left = `${x}px`;
-    chips.style.top = `${y}px`;
-    GameElement.appendChild(chips);
+  static validateYcoord(y) {
+    return (Math.floor(y / 50) % 12) * 50;
   }
 
   key(key) {
@@ -71,5 +50,20 @@ class Game {
         break;
     }
     console.log(this.player);
+  }
+}
+
+class Chips {
+  constructor(x, y) {
+    let chips = document.createElement('div');
+    chips.id = 'chips';
+    chips.style.left = `${Game.validateXcoord(x)}px`;
+    chips.style.top = `${Game.validateYcoord(y)}px`;
+    MapArray.push({
+      name: 'chips',
+      x: Game.validateXcoord(x),
+      y: Game.validateYcoord(y),
+    });
+    GameElement.appendChild(chips);
   }
 }
