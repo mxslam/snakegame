@@ -9,7 +9,10 @@ class Game {
     setInterval(function hi() {
       let CountChips = parseInt(document.querySelectorAll('#chips').length);
       if (CountChips > 0) return;
-      new Chips(Math.random() * 1000, Math.random() * 1000);
+      let xRandom = Game.validateXcoord(Math.random() * 750);
+      let yRandom = Game.validateYcoord(Math.random() * 550);
+
+      new Chips(xRandom, yRandom);
     }, 1000);
 
     this.grid.displayGrid();
@@ -24,6 +27,12 @@ class Game {
 
       element.Xcase = (Math.floor(element.x / 50) * 50) / 50;
       element.Ycase = (Math.floor(element.y / 50) * 50) / 50;
+
+      if (element.name == 'player') document.getElementById('playerxCase').innerText = 'Xcase : ' + element.Xcase;
+      if (element.name == 'player') document.getElementById('playeryCase').innerText = 'Ycase : ' + element.Ycase;
+
+      if (element.name == 'chips') document.getElementById('chipsxCase').innerText = 'Xcase : ' + element.Xcase;
+      if (element.name == 'chips') document.getElementById('chipsyCase').innerText = 'Ycase : ' + element.Ycase;
     });
     this.player.RefreshValues();
     this.player.MovePlayer();
@@ -36,11 +45,8 @@ class Game {
   static checkCollisions() {
     for (let x = 0; x < MapArray.length; x++) {
       MapArray.forEach((element) => {
-        if (
-          element.name != MapArray[x].name &&
-          element.Xcase == MapArray[x].Xcase &&
-          element.Ycase == MapArray[x].Ycase
-        ) {
+        if (element.name == MapArray[x].name) return;
+        if (element.Xcase == MapArray[x].Xcase && element.Ycase == MapArray[x].Ycase) {
           console.log('Colision between', element, 'and', MapArray[x]);
 
           if (element.name == 'player') {
@@ -59,25 +65,29 @@ class Game {
   }
 
   static validateXcoord(x) {
-    return (Math.floor(x / 50) % 16) * 50;
+    return Math.floor((x / 50) % 15) * 50;
   }
 
   static validateYcoord(y) {
-    return (Math.floor(y / 50) % 12) * 50;
+    return Math.floor((y / 50) % 11) * 50;
   }
 
   key(key) {
     switch (key) {
       case 'd':
+      case 'ArrowRight':
         this.player.dir = 0;
         break;
       case 'q':
+      case 'ArrowLeft':
         this.player.dir = 1;
         break;
       case 'z':
+      case 'ArrowUp':
         this.player.dir = 2;
         break;
       case 's':
+      case 'ArrowDown':
         this.player.dir = 3;
         break;
     }
@@ -89,13 +99,13 @@ class Chips {
   constructor(x, y) {
     let chips = document.createElement('div');
     chips.id = 'chips';
-    chips.style.left = `${Game.validateXcoord(x)}px`;
-    chips.style.top = `${Game.validateYcoord(y)}px`;
+    chips.style.left = `${x}px`;
+    chips.style.top = `${y}px`;
     MapArray.push({
       name: 'chips',
       selector: 'chips',
-      x: Game.validateXcoord(x),
-      y: Game.validateYcoord(y),
+      x: x,
+      y: y,
     });
     GameElement.appendChild(chips);
   }
