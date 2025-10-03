@@ -2,6 +2,7 @@ const PlayerElement = document.getElementById('player');
 
 class Player {
   constructor(x, y) {
+    this.pathDone = 0;
     this.SetPosition(x, y);
     this.dir = 0;
     this.xpos = parseInt(PlayerElement.style.left.slice(0, -2));
@@ -9,6 +10,7 @@ class Player {
     this.xtarget = this.xpos;
     this.ytarget = this.ypos;
     this.snakeMove = false;
+
     MapArray.push({
       name: 'player',
       selector: 'player',
@@ -24,12 +26,25 @@ class Player {
   }
 
   SetXposition(x) {
-    PlayerElement.style.left = `${x}px`;
+    let xdef = this.xtarget - this.xpos;
+
+    if (this.pathDone > timer) {
+      PlayerElement.style.left = `${x + xdef}px`;
+    }
+
+    if (this.pathDone < timer) {
+      PlayerElement.style.left = `${x - xdef}px`;
+    }
+
+    if (this.pathDone == timer) {
+      PlayerElement.style.left = `${x}px`;
+    }
   }
 
   SetYposition(y) {
     PlayerElement.style.top = `${y}px`;
   }
+
   SetPosition(x, y) {
     this.SetXposition(x);
     this.SetYposition(y);
@@ -96,6 +111,18 @@ class Player {
           this.ytarget = this.ypos + 50;
           break;
       }
+
+      if (this.pathDone > timer) {
+        console.log(`Le temps est inférieur ${timer} à la distance parcourue ${this.pathDone}`);
+      }
+
+      if (this.pathDone < timer) {
+        console.log(`Le temps est supérieur ${timer} à la distance parcourue ${this.pathDone}`);
+      }
+      if (this.pathDone == timer) {
+        console.log('le temps et la fréquence sont synchronisés');
+      }
+      this.pathDone += 1;
     }
   }
 }

@@ -1,10 +1,19 @@
 const GameElement = document.getElementById('game');
 const MapArray = [];
+let dt = performance.now / 1000;
+let timer = 0;
+
+setInterval(() => {
+  timer = timer + 1;
+}, 100);
 
 class Game {
   constructor() {
     this.grid = new Grid();
     this.player = new Player(500, 300);
+    this.baseTime = performance.now();
+    this.TimeEllapsed = (performance.now() - this.baseTime) / 1000;
+    this.lastTik = performance.now();
 
     setInterval(function hi() {
       let CountChips = parseInt(document.querySelectorAll('#chips').length);
@@ -20,6 +29,11 @@ class Game {
   }
 
   update() {
+    this.TimeEllapsed = (performance.now() - this.baseTime) / 1000;
+
+    dt = (performance.now() - this.lastTik) / 1000;
+    this.lastTik = performance.now();
+
     MapArray.forEach((element) => {
       const arrayElement = document.getElementById(element.selector);
       element.x = parseInt(arrayElement.style.left.slice(0, -2));
@@ -35,11 +49,17 @@ class Game {
       if (element.name == 'chips') document.getElementById('chipsyCase').innerText = 'Ycase : ' + element.Ycase;
     });
     this.player.RefreshValues();
-    this.player.MovePlayer();
+
+    this.player.MovePlayer(this.TimeEllapsed);
+
     Game.checkCollisions();
     requestAnimationFrame(() => {
       this.update();
     });
+  }
+
+  static ValueTimed(x) {
+    return x;
   }
 
   static checkCollisions() {

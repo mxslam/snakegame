@@ -1,5 +1,5 @@
 const game = new Game();
 
-window.addEventListener('keyup', (key) => {
+window.addEventListener('keydown', (key) => {
   game.key(key.key);
 });
