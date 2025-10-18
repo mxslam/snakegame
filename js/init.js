@@ -1,5 +1,9 @@
 const game = new Game();
 
-window.addEventListener('keyup', (key) => {
+setInterval(() => {
+  game.update();
+}, 16);
+
+window.addEventListener('keypress', (key) => {
   game.key(key.key);
 });

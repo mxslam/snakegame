@@ -37,9 +37,6 @@ class Game {
     this.player.RefreshValues();
     this.player.MovePlayer();
     Game.checkCollisions();
-    requestAnimationFrame(() => {
-      this.update();
-    });
   }
 
   static checkCollisions() {
