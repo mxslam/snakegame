@@ -1,7 +1,7 @@
 const game = new Game();
 
 let speed = 5; // px per frame
-let timeout = 16; // 16ms = 60fps
+let timeout = 100; // 16ms = 60fps
 
 setInterval(() => {
   game.update();
