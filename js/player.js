@@ -59,19 +59,19 @@ class Player {
 
   MovePlayer() {
     if (this.xtarget > this.xpos) {
-      this.SetXposition(this.xpos + 10);
+      this.SetXposition(this.xpos + speed);
     }
 
     if (this.xtarget < this.xpos) {
-      this.SetXposition(this.xpos - 10);
+      this.SetXposition(this.xpos - speed);
     }
 
     if (this.ytarget > this.ypos) {
-      this.SetYposition(this.ypos + 10);
+      this.SetYposition(this.ypos + speed);
     }
 
     if (this.ytarget < this.ypos) {
-      this.SetYposition(this.ypos - 10);
+      this.SetYposition(this.ypos - speed);
     }
 
     this.createNewTarget();

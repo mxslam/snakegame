@@ -1,8 +1,11 @@
 const game = new Game();
 
+let speed = 5; // px per frame
+let timeout = 16; // 16ms = 60fps
+
 setInterval(() => {
   game.update();
-}, 16);
+}, timeout);
 
 window.addEventListener('keypress', (key) => {
   game.key(key.key);
