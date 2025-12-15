@@ -57,21 +57,26 @@ class Player {
     }
   }
 
-  MovePlayer() {
+  MovePlayer(deltaTime) {
+    // Calculer la distance à parcourir cette frame (utilise la vitesse globale)
+    const moveDistance = window.SPEED_PX_PER_SECOND * deltaTime;
+    
+    // Mouvement horizontal
     if (this.xtarget > this.xpos) {
-      this.SetXposition(this.xpos + speed);
+      const newX = Math.min(this.xpos + moveDistance, this.xtarget);
+      this.SetXposition(newX);
+    } else if (this.xtarget < this.xpos) {
+      const newX = Math.max(this.xpos - moveDistance, this.xtarget);
+      this.SetXposition(newX);
     }
 
-    if (this.xtarget < this.xpos) {
-      this.SetXposition(this.xpos - speed);
-    }
-
+    // Mouvement vertical
     if (this.ytarget > this.ypos) {
-      this.SetYposition(this.ypos + speed);
-    }
-
-    if (this.ytarget < this.ypos) {
-      this.SetYposition(this.ypos - speed);
+      const newY = Math.min(this.ypos + moveDistance, this.ytarget);
+      this.SetYposition(newY);
+    } else if (this.ytarget < this.ypos) {
+      const newY = Math.max(this.ypos - moveDistance, this.ytarget);
+      this.SetYposition(newY);
     }
 
     this.createNewTarget();
@@ -82,18 +87,18 @@ class Player {
     if (!this.snakeMove) {
       switch (this.dir) {
         case 0:
-          this.xtarget = this.xpos + 50;
+          this.xtarget = this.xpos + window.CASE_SIZE;
           break;
 
         case 1:
-          this.xtarget = this.xpos - 50;
+          this.xtarget = this.xpos - window.CASE_SIZE;
           break;
 
         case 2:
-          this.ytarget = this.ypos - 50;
+          this.ytarget = this.ypos - window.CASE_SIZE;
           break;
         case 3:
-          this.ytarget = this.ypos + 50;
+          this.ytarget = this.ypos + window.CASE_SIZE;
           break;
       }
     }

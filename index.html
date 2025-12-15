@@ -87,6 +87,12 @@
     </div>
   </body>
 
+  <script>
+    // Configuration globale : définie avant tous les autres scripts
+    window.CASE_SIZE = 50; // Taille d'une case en pixels
+    window.SPEED_CASES_PER_SECOND = 5; // Nombre de cases par seconde
+    window.SPEED_PX_PER_SECOND = window.SPEED_CASES_PER_SECOND * window.CASE_SIZE; // 250 px/seconde
+  </script>
   <script src="./js/player.js"></script>
   <script src="./js/grid.js"></script>
   <script src="./js/game.js"></script>
