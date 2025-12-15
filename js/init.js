@@ -1,17 +1,11 @@
 const game = new Game();
 
-let lastTime = performance.now();
+let speed = 5; // px par tick
+let timeout = 10; // 100 ms ≈ 10 FPS
 
-function gameLoop(currentTime) {
-  const deltaTime = (currentTime - lastTime) / 1000; // Delta en secondes
-  lastTime = currentTime;
-
-  game.update(deltaTime);
-  requestAnimationFrame(gameLoop);
-}
-
-// Démarrer la boucle de jeu
-requestAnimationFrame(gameLoop);
+setInterval(() => {
+  game.update();
+}, timeout);
 
 window.addEventListener('keypress', (key) => {
   game.key(key.key);

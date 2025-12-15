@@ -19,7 +19,7 @@ class Game {
     this.update();
   }
 
-  update(deltaTime) {
+  update() {
     MapArray.forEach((element) => {
       const arrayElement = document.getElementById(element.selector);
       element.x = parseInt(arrayElement.style.left.slice(0, -2));
@@ -35,7 +35,7 @@ class Game {
       if (element.name == 'chips') document.getElementById('chipsyCase').innerText = 'Ycase : ' + element.Ycase;
     });
     this.player.RefreshValues();
-    this.player.MovePlayer(deltaTime);
+    this.player.MovePlayer();
     Game.checkCollisions();
   }
 
